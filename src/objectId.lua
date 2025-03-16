@@ -28,7 +28,7 @@ local object_id_mt = {
     __eq = function ( a , b ) return a.id == b.id end ;
 }
 
-local machineid = assert ( io.popen ( "uname -n" ) ):read ( "*l" )
+local machineid = assert ( io.popen ( "hostname" ) ):read ( "*l" ) -- what the fuck does this do 
 machineid = openssl.digest.digest("md5", machineid):sub ( 1 , 3 )
 
 local pid = process.pid

@@ -25,25 +25,8 @@ local function toLSB(bytes, value)
     return str
 end
 
-local ffi = require("ffi")
-if pcall(ffi.typeof, "struct timeval") then
-else
-    ffi.cdef[[
-        typedef long time_t;
-
-        typedef struct timeval {
-            time_t tv_sec;
-            time_t tv_usec;
-        } timeval;
-
-        int gettimeofday(struct timeval* t, void* tzp);
-    ]]
-end
-
-local gettimeofday_struct = ffi.new("timeval")
 local function getTime()
-    ffi.C.gettimeofday(gettimeofday_struct, nil)
-    return tonumber(gettimeofday_struct.tv_sec) * 1000 + tonumber(gettimeofday_struct.tv_usec / 1000)
+    return os.time() * 1000
 end
 
 local function toLSB32(value) return toLSB(4,value) end
